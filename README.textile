@@ -37,7 +37,7 @@ end</code></pre>
 
 Then, anywhere in your code where you want to connect to the "other_development" database, just wrap your call with "db_context"
 
-<pre><code>db_context(:other) do
+<pre><code>@articles = db_context(:other) do
   Article.find(:all)
 end</code></pre>
 
