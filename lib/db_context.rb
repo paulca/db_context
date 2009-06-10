@@ -1,0 +1,23 @@
+class DbContext
+  class << self
+    
+    def connect_to_default_database!
+      ActiveRecord::Base.establish_connection(database_configuration([:default]))
+    end
+    
+    def database_configuration(name)
+      env = name == :default ? Rails.env : "#{name}_#{Rails.env}"
+      YAML.load(File.read(Rails.configuration.database_configuration_file))[env]
+    end
+    
+    def connect_to_contextual_database!(name)
+      ActiveRecord::Base.establish_connection(database_configuration(name))
+    end
+    
+    def db_context(name, &block)
+      connect_to_contextual_database!(name)
+        yield
+      connect_to_default_database!
+    end
+  end
+end

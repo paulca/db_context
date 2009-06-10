@@ -1,0 +1,65 @@
+h1. DB Context
+
+There are quite a lot of articles out there about connecting to multiple databases within a Rails app.
+
+A lot of them require a good bit of mixing around with models and things. I wanted to just be able to add a field to database.yml and then call that context on demand.
+
+For example:
+
+<pre><code>db_context(:other_database) do
+  Article.find(:all)
+end
+</code></pre>
+
+This simple Rails plugin allows just that.
+
+h2. Usage
+
+First of all, define your other database in config/database.yml
+
+<pre><code>development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  timeout: 5000
+  
+  other_development:
+  adapter: sqlite3
+  database: db/other_development.sqlite3
+  timeout: 5000
+  
+  # ... and so forth for your other environments.
+</code></pre>
+
+Then, set up your model as usual:
+
+<pre><code>class Article < ActiveRecord::Base
+end</code></pre>
+
+Then, anywhere in your code where you want to connect to the "other_development" database, just wrap your call with "db_context"
+
+<pre><code>db_context(:other) do
+  Article.find(:all)
+end</code></pre>
+
+h2. Warning
+
+This is _very_ hacky. I created it just so I could use the nice block syntax for choosing the database scope. If you want migrations to work, you'll need to create new environment files in config/environments/ for them.
+
+Also: I didn't build this for production: the Rails app that I'm abstracting from _does_ use only one database: I'm using this plugin in some background tasks for rebuilding data.
+
+However, it is a really simple, quick way around the problem, that doesn't involve too much messing about.
+
+h2. Install
+
+Easy!
+
+<pre><code>./script plugin install git://github.com/paulca/db_context.git
+</code></pre>
+
+h2. About me
+
+I'm Paul Campbell. I'm an avid web developer. Follow my ramblings at "http://www.pabcas.com":http://www.pabcas.com
+
+Follow me on Twitter "http://twitter.com/paulca":http://twitter.com/paulca
+
+Copyright (c) 2009 Paul Campbell, released under the MIT license
