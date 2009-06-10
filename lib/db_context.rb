@@ -16,8 +16,9 @@ class DbContext
     
     def db_context(name, &block)
       connect_to_contextual_database!(name)
-        yield
+        return_value = yield
       connect_to_default_database!
+      return_value
     end
   end
 end

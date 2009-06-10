@@ -38,4 +38,11 @@ describe "changing the context of a database" do
       TestModel.count.should == 3
     end
   end
+  
+  it "should return the value within the block" do
+    count = db_context(:other) do
+      TestModel.count
+    end
+    count.should == 3
+  end
 end
