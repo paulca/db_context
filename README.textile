@@ -22,7 +22,7 @@ First of all, define your other database in config/database.yml
   database: db/development.sqlite3
   timeout: 5000
   
-  other_development:
+other_development:
   adapter: sqlite3
   database: db/other_development.sqlite3
   timeout: 5000
