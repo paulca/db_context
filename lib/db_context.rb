@@ -11,6 +11,10 @@ class DbContext
       YAML.load(File.read(Rails.configuration.database_configuration_file))[env]
     end
     
+    def logger
+      Rails.logger
+    end
+    
     def connect_to_contextual_database!(name)
       logger.info "DB Context: Changing to #{name} database configuration"
       ActiveRecord::Base.establish_connection(database_configuration(name))
